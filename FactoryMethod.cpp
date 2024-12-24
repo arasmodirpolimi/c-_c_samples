@@ -1,57 +1,56 @@
 #include <iostream>
+#include <string>
 using namespace std;
 
-class Product {
+// Product Interface
+class Vehicle {
 public:
-    virtual void use() = 0; // Pure virtual function to be implemented by subclasses
-    virtual ~Product() {} // Virtual destructor for proper cleanup
+    virtual void describe() = 0;
+    virtual ~Vehicle() {}
 };
 
-class ConcreteProductA : public Product {
+// Concrete Product: Car
+class Car : public Vehicle {
 public:
-    void use() override { cout << "Using Product A" << endl; }
+    void describe() override { cout << "This is a Car." << endl; }
 };
 
-class ConcreteProductB : public Product {
+// Concrete Product: Bike
+class Bike : public Vehicle {
 public:
-    void use() override { cout << "Using Product B" << endl; }
+    void describe() override { cout << "This is a Bike." << endl; }
 };
 
-class Factory {
+// Factory
+class VehicleFactory {
 public:
-    static Product* createProduct(char type) {
-        if (type == 'A') return new ConcreteProductA(); // Creates a Product A
-        if (type == 'B') return new ConcreteProductB(); // Creates a Product B
-        return nullptr; // Returns nullptr for invalid type
+    static Vehicle* createVehicle(const string& type) {
+        if (type == "Car") return new Car();
+        if (type == "Bike") return new Bike();
+        return nullptr;
     }
 };
 
+// Main function
 int main() {
-    // Create Product A
-    Product* productA = Factory::createProduct('A');
-    if (productA) {
-        productA->use(); // Call the `use` method on Product A
-        delete productA; // Clean up to avoid memory leaks
-    } else {
-        cout << "Invalid product type for A!" << endl;
+    // Create a Car
+    Vehicle* car = VehicleFactory::createVehicle("Car");
+    if (car) {
+        car->describe();
+        delete car;
     }
 
-    // Create Product B
-    Product* productB = Factory::createProduct('B');
-    if (productB) {
-        productB->use(); // Call the `use` method on Product B
-        delete productB; // Clean up to avoid memory leaks
-    } else {
-        cout << "Invalid product type for B!" << endl;
+    // Create a Bike
+    Vehicle* bike = VehicleFactory::createVehicle("Bike");
+    if (bike) {
+        bike->describe();
+        delete bike;
     }
 
-    // Attempt to create an invalid product
-    Product* invalidProduct = Factory::createProduct('C');
-    if (invalidProduct) {
-        invalidProduct->use();
-        delete invalidProduct;
-    } else {
-        cout << "Invalid product type for C!" << endl;
+    // Invalid vehicle type
+    Vehicle* unknown = VehicleFactory::createVehicle("Plane");
+    if (!unknown) {
+        cout << "Unknown vehicle type!" << endl;
     }
 
     return 0;
