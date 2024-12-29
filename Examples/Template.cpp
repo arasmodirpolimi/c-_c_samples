@@ -1,10 +1,3 @@
-/**
- * Simple use of C++ templates.
- * 
- * @author
- *   Wade Fagen-Ulmschneider <waf@illinois.edu>
- */
-
 #include <iostream>
 using std::cout;
 using std::endl;
